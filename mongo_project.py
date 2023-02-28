@@ -30,6 +30,9 @@ def show_menu():
 
 
 def get_record():
+    """
+    Helper file
+    """
     print("")
     first = input("Enter first name > ")
     last = input("Enter last name > ")
@@ -38,10 +41,15 @@ def get_record():
         doc = coll.find_one({"first": first.lower(), "last": last.lower()})
     except:
         print("")
-        print("Error! No results found")
+        print("Error! No results found")  # if an empty doc is found
+
+    return doc
 
 
 def add_record():
+    """
+    Insert records into the collection
+    """
     print("")
     first = input("Enter first name > ")
     last = input("Enter last name > ")
@@ -69,15 +77,44 @@ def add_record():
         print("Error accessing the database")
 
 
+def find_record():
+    doc = get_record()
+    if doc:
+        print("")
+        for k, v in doc.items():     # iterate over key-value pairs in document
+            if k != "_id":           # MongoDB object id
+                print(k.capitalize() + ": " + v.capitalize())
+
+
+def edit_record():
+    doc = get_record()
+    if doc:
+        update_doc = {}                # dictionary
+        print("")
+
+        for k, v in doc.items():
+            if k != "_id":
+                update_doc[k] = input(k.capitalize() + " [" + v + "] > ")
+                # Shows current value in [] e.g.  Occupation [researcher] > 
+                if update_doc[k] == "":     # if not updated
+                    update_doc[k] = v       # keep original value
+
+        try:
+            coll.update_one(doc, {"$set": update_doc})
+            print("Document updated")
+        except:
+            print("Error accessing the database")
+
+
 def main_loop():
     while True:
         option = show_menu()
         if option == "1":
             add_record()
         elif option == "2":
-            print("You have selected option 2")
+            find_record()
         elif option == "3":
-            print("You have selected option 3")
+            edit_record()
         elif option == "4":
             print("You have selected option 4")
         elif option == "5":
