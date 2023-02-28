@@ -6,7 +6,7 @@ if os.path.exists("env.py"):
 
 MONGO_URI = os.environ.get("MONGO_URI")
 DATABASE = "database0"
-COLLECTION = "humans"
+COLLECTION = "celebrities"
 
 
 def mongo_connect(url):
@@ -29,11 +29,51 @@ def show_menu():
     return option
 
 
+def get_record():
+    print("")
+    first = input("Enter first name > ")
+    last = input("Enter last name > ")
+
+    try:
+        doc = coll.find_one({"first": first.lower(), "last": last.lower()})
+    except:
+        print("")
+        print("Error! No results found")
+
+
+def add_record():
+    print("")
+    first = input("Enter first name > ")
+    last = input("Enter last name > ")
+    dob = input("Enter date of birth > ")
+    gender = input("Enter gender > ")
+    speciality = input("Enter speciality > ")
+    occupation = input("Enter occupation > ")
+    nationality = input("Enter nationality > ")
+
+    new_doc = {
+        "first": first.lower(),
+        "last": last.lower(),
+        "dob": dob,
+        "gender": gender,
+        "speciality": speciality,
+        "occupation": occupation,
+        "nationality": nationality
+    }
+
+    try:
+        coll.insert_one(new_doc)
+        print("")
+        print("Document inserted")
+    except:
+        print("Error accessing the database")
+
+
 def main_loop():
     while True:
         option = show_menu()
         if option == "1":
-            print("You have selected option 1")
+            add_record()
         elif option == "2":
             print("You have selected option 2")
         elif option == "3":

@@ -10,6 +10,10 @@ This is the Code Institute template for Gitpod.
 
 ### MongoDB
 
+Mongo commands:
+
+[CRUD](https://github.com/Code-Institute-Solutions/MongoDB/tree/master/02-ManipulateDataUsingMongoShell)
+
 Open Mongo Shell:
 
 `$ mongo "mongodb+srv://my-cluster.alphanumeric-id.mongodb.net/my-database" --username my-username`
