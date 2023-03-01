@@ -1,12 +1,12 @@
 import os
 import pymongo
-if os.path.exists("env.py"): 
+if os.path.exists("env.py"):
     import env
 
 
 MONGO_URI = os.environ.get("MONGO_URI")
-DATABASE = "database0"
-COLLECTION = "celebrities"
+DATABASE = "database0"  # on cluster0
+COLLECTION = "humans"   # humans or celebrities
 
 
 def mongo_connect(url):
@@ -42,6 +42,10 @@ def get_record():
     except:
         print("")
         print("Error! No results found")  # if an empty doc is found
+
+    if not doc:
+        print("")
+        print("Error! No results found.")
 
     return doc
 
@@ -95,7 +99,7 @@ def edit_record():
         for k, v in doc.items():
             if k != "_id":
                 update_doc[k] = input(k.capitalize() + " [" + v + "] > ")
-                # Shows current value in [] e.g.  Occupation [researcher] > 
+                # Shows current value in [] e.g.  Occupation [researcher] >
                 if update_doc[k] == "":     # if not updated
                     update_doc[k] = v       # keep original value
 
@@ -106,6 +110,32 @@ def edit_record():
             print("Error accessing the database")
 
 
+def delete_record():
+    doc = get_record()
+    if doc:
+        update_doc = {}                # dictionary
+        print("")
+
+        for k, v in doc.items():
+            if k != "_id":
+                print(k.capitalize() + ": " + v.capitalize())
+                # defensive programming - make sure we delete the correct record
+
+        print("")
+        confirmation = input("Is this the document you want to delete?\nY or N > ")
+        print("")
+
+        if confirmation.lower() == "y":
+            try:
+                coll.delete_one(doc)
+                print("Document deleted!")
+            except:
+                print("Error accessing the database")
+        else:
+            # if y/n not entered
+            print("Document not deleted")
+
+\
 def main_loop():
     while True:
         option = show_menu()
@@ -116,7 +146,7 @@ def main_loop():
         elif option == "3":
             edit_record()
         elif option == "4":
-            print("You have selected option 4")
+            delete_record()
         elif option == "5":
             conn.close()  # close the DB connection
             break

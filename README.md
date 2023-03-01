@@ -16,7 +16,7 @@ Mongo commands:
 
 Open Mongo Shell:
 
-`$ mongo "mongodb+srv://my-cluster.alphanumeric-id.mongodb.net/my-database" --username my-username`
+`$ mongo "mongodb+srv://my-cluster.alphanumeric-id.mongodb.net/my-database" --username my-db-username`
 
 
 ### Frontend
@@ -29,7 +29,9 @@ A blue button should appear to click: _Make Public_,
 
 Another blue button should appear to click: _Open Browser_.
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course. To run this project's file, type:
+
+`python3 mongo_project.py`
 
 A blue button should appear to click: _Make Public_,
 
